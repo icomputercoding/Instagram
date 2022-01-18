@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightGray">
@@ -52,24 +51,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/poppins"
+            android:gravity="center"
             android:includeFontPadding="false"
             android:text="@string/Description"
             android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/colorTextBlack"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/phoneNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
-            android:includeFontPadding="false"
-            android:text="+918698066529"
-            android:textAlignment="center"
-            android:gravity="center"
             android:textColor="@color/colorTextBlack"
             android:textSize="16sp" />
 
@@ -98,10 +83,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@color/Blue"
+            android:background="@color/colorBlack"
             android:onClick="callNextScreenFromOTP"
             android:text="verify code"
-            android:textColor="@color/colorTextBlack"
+            android:textColor="@color/colorTextWhite"
             android:transitionName="transition_OTP_screen" />
 
 

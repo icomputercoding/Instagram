@@ -20,8 +20,6 @@ public class PhoneScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_screen);
-
         binding = ActivityPhoneScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
