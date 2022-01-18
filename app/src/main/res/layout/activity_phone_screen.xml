@@ -96,7 +96,6 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/colorBlack"
                 android:elevation="5dp"
-                android:onClick="callVerifyOTPScreen"
                 android:text="@string/next"
                 android:textColor="@color/colorTextWhite"
                 android:transitionName="transition_next_btn" />

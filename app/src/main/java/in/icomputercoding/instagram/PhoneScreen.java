@@ -20,8 +20,6 @@ public class PhoneScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_screen);
-
         binding = ActivityPhoneScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -33,8 +31,6 @@ public class PhoneScreen extends AppCompatActivity {
             finish();
         }
 
-        Objects.requireNonNull(getSupportActionBar()).hide();
-
         binding.signupPhoneNumber.requestFocus();
 
         binding.signupNextButton.setOnClickListener(v -> {
@@ -43,8 +39,5 @@ public class PhoneScreen extends AppCompatActivity {
             startActivity(intent);
         });
 
-    }
-
-    public void callVerifyOTPScreen(View view) {
     }
 }

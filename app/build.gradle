@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -7,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "in.icomputercoding.instagram"
-        minSdk 21
+        minSdk 23
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -33,7 +34,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.databinding:databinding-runtime:7.0.4'
     implementation 'com.airbnb.android:lottie:4.2.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
@@ -55,8 +56,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.3'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
-    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.0-beta04'
 
 
     //Chip Navigation
@@ -68,4 +70,8 @@ dependencies {
 
     //OTP View
     implementation 'com.chaos.view:pinview:1.4.3'
+
+    //CircleView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 }
