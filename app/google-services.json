@@ -1,7 +1,10 @@
 {
   "project_info": {
     "project_number": "767106586877",
+<<<<<<< HEAD
     "firebase_url": "https://instagram-52e82-default-rtdb.firebaseio.com",
+=======
+>>>>>>> origin/master
     "project_id": "instagram-52e82",
     "storage_bucket": "instagram-52e82.appspot.com"
   },
