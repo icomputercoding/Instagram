@@ -12,6 +12,7 @@
         android:padding="30dp">
 
         <ImageView
+            android:id="@+id/arrow_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="goToHomeFromOTP"
@@ -80,6 +81,7 @@
 
 
         <Button
+            android:id="@+id/verifyCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

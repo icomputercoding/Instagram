@@ -74,4 +74,6 @@ dependencies {
     //CircleView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'androidx.browser:browser:1.4.0'
+
 }
