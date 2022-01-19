@@ -80,16 +80,31 @@
             app:lineWidth="1dp" />
 
 
-        <Button
-            android:id="@+id/verifyCode"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@color/colorBlack"
-            android:onClick="callNextScreenFromOTP"
-            android:text="verify code"
-            android:textColor="@color/colorTextWhite"
-            android:transitionName="transition_OTP_screen" />
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/buttongetotp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@color/colorBlack"
+                android:onClick="callNextScreenFromOTP"
+                android:text="verify code"
+                android:textColor="@color/colorTextWhite"
+                android:transitionName="transition_OTP_screen" />
+
+            <ProgressBar
+                android:id="@+id/progressbar_verify_otp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+
+        </FrameLayout>
 
 
     </LinearLayout>
