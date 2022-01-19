@@ -107,13 +107,6 @@
                 android:textColor="@color/colorTextWhite"
                 android:transitionName="transition_next_btn" />
 
-            <ProgressBar
-                android:id="@+id/progressbar_sending_otp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:visibility="gone"/>
-
 
         </FrameLayout>
 

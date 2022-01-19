@@ -18,6 +18,7 @@ public class PhoneScreen extends AppCompatActivity {
 
     ActivityPhoneScreenBinding binding;
     FirebaseAuth auth;
+    String phone;
 
     @Override
     protected void onStart() {
@@ -41,16 +42,18 @@ public class PhoneScreen extends AppCompatActivity {
 
         binding.buttongetotp.setOnClickListener(v -> {
 
-            String phone = Objects.requireNonNull(binding.signupPhoneNumber.getEditText()).getText().toString().trim();
+            phone = Objects.requireNonNull(binding.signupPhoneNumber.getEditText()).getText().toString().trim();
 
 
             if (phone.isEmpty() || phone.length() < 10) {
                 Toast.makeText(PhoneScreen.this, "Valid number is required", Toast.LENGTH_SHORT).show();
+            } else {
+                String phoneNo = "+" + binding.countryCodePicker.getSelectedCountryCode() + phone;
+                Intent intent = new Intent(PhoneScreen.this, OtpVerifyScreen.class);
+                intent.putExtra("phoneNumber", phoneNo);
+                startActivity(intent);
             }
-            String phoneNo = "+" + binding.countryCodePicker.getSelectedCountryCode() + phone;
-            Intent intent = new Intent(PhoneScreen.this, OtpVerifyScreen.class);
-            intent.putExtra("phoneNumber", phoneNo);
-            startActivity(intent);
+
 
 
         });

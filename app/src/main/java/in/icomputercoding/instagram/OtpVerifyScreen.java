@@ -1,7 +1,6 @@
 package in.icomputercoding.instagram;
 
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,9 +15,13 @@ import android.view.View;
 import android.widget.Toast;
 
 
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 
 
@@ -35,8 +38,9 @@ public class OtpVerifyScreen extends AppCompatActivity {
 
     ActivityOtpVerifyScreenBinding binding;
     FirebaseAuth auth;
-    String verificationId;
+    private String verificationId = "";
     String phoneNumber, code;
+    private boolean otpSent = false;
 
 
     @SuppressLint("SetTextI18n")
@@ -46,12 +50,32 @@ public class OtpVerifyScreen extends AppCompatActivity {
         binding = ActivityOtpVerifyScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        FirebaseApp.initializeApp(this);
+
         auth = FirebaseAuth.getInstance();
 
+        if (otpSent) {
+            final String getOtp = binding.pinView.getText().toString();
 
-        phoneNumber = getIntent().getStringExtra("phoneNumber");
-        binding.otpDescriptionText.setText("Enter One Time Password Sent On " + phoneNumber);
-        sendVerificationCode(phoneNumber);
+            if (verificationId.isEmpty()) {
+                Toast.makeText(OtpVerifyScreen.this, "Unable to verify OTP", Toast.LENGTH_SHORT).show();
+            } else {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, getOtp);
+
+                auth.signInWithCredential(credential).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = task.getResult().getUser();
+                        Toast.makeText(OtpVerifyScreen.this, "Verified", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(OtpVerifyScreen.this, "Something went wrong!!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } else {
+            phoneNumber = getIntent().getStringExtra("phoneNumber");
+            binding.otpDescriptionText.setText("Enter One Time Password Sent On " + phoneNumber);
+            sendVerificationCode(phoneNumber);
+        }
 
 
         binding.buttongetotp.setOnClickListener(v -> {
@@ -59,17 +83,12 @@ public class OtpVerifyScreen extends AppCompatActivity {
             code = Objects.requireNonNull(binding.pinView.getText()).toString();
 
             if (code.isEmpty() || code.length() < 6) {
-
                 Toast.makeText(OtpVerifyScreen.this, "Enter OTP", Toast.LENGTH_SHORT).show();
+            } else {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+                signInWithCredential(credential);
             }
-            verifyCode(code);
         });
-    }
-
-    private void verifyCode(String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        signInWithCredential(credential);
-
     }
 
     private void signInWithCredential(PhoneAuthCredential credential) {
@@ -89,40 +108,42 @@ public class OtpVerifyScreen extends AppCompatActivity {
     }
 
     private void sendVerificationCode(String number) {
-        binding.progressbarVerifyOtp.setVisibility(View.VISIBLE);
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(number)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(OtpVerifyScreen.this)
-                .setCallbacks(mCallBack)
-                .build();
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                        String code = phoneAuthCredential.getSmsCode();
+                        if (code != null) {
+                            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+                            signInWithCredential(credential);
+                            Toast.makeText(OtpVerifyScreen.this, "OTP Sent...", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                        Toast.makeText(OtpVerifyScreen.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(s, forceResendingToken);
+                        verificationId = s;
+                        otpSent = true;
+                    }
+
+                }).build();
+
+
         PhoneAuthProvider.verifyPhoneNumber(options);
 
     }
 
-    private final PhoneAuthProvider.OnVerificationStateChangedCallbacks
-            mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-        @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            verificationId = s;
-        }
-
-        @Override
-        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-            String code = phoneAuthCredential.getSmsCode();
-            if (code != null) {
-                Toast.makeText(OtpVerifyScreen.this, "Verification Done...", Toast.LENGTH_SHORT).show();
-                verifyCode(code);
-            }
-        }
-
-        @Override
-        public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(OtpVerifyScreen.this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    };
 }
 
 

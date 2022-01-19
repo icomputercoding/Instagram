@@ -96,13 +96,6 @@
                 android:textColor="@color/colorTextWhite"
                 android:transitionName="transition_OTP_screen" />
 
-            <ProgressBar
-                android:id="@+id/progressbar_verify_otp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
 
         </FrameLayout>
 
