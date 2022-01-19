@@ -7,21 +7,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 
+
 import android.content.Intent;
 
 import android.os.Bundle;
 
-import android.view.View;
+
 import android.widget.Toast;
 
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 
 
@@ -55,7 +53,7 @@ public class OtpVerifyScreen extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (otpSent) {
-            final String getOtp = binding.pinView.getText().toString();
+            final String getOtp = Objects.requireNonNull(binding.pinView.getText()).toString();
 
             if (verificationId.isEmpty()) {
                 Toast.makeText(OtpVerifyScreen.this, "Unable to verify OTP", Toast.LENGTH_SHORT).show();
@@ -64,7 +62,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
 
                 auth.signInWithCredential(credential).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = task.getResult().getUser();
                         Toast.makeText(OtpVerifyScreen.this, "Verified", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(OtpVerifyScreen.this, "Something went wrong!!!", Toast.LENGTH_SHORT).show();
@@ -83,6 +80,7 @@ public class OtpVerifyScreen extends AppCompatActivity {
             code = Objects.requireNonNull(binding.pinView.getText()).toString();
 
             if (code.isEmpty() || code.length() < 6) {
+
                 Toast.makeText(OtpVerifyScreen.this, "Enter OTP", Toast.LENGTH_SHORT).show();
             } else {
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
@@ -95,7 +93,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-
                         Intent intent = new Intent(OtpVerifyScreen.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
