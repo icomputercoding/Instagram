@@ -6,11 +6,11 @@
         <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/drawable/black_border.xml" value="0.1388888888888889" />
         <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/drawable/ic_phone.xml" value="0.1388888888888889" />
         <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_otp_verify_screen.xml" value="0.22" />
-        <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_phone_screen.xml" value="0.22" />
+        <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_otp_verify_screen.xml" value="0.33" />
+        <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_phone_screen.xml" value="0.25" />
         <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_set_up_profile_screen.xml" value="0.25" />
         <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_splash_screen.xml" value="0.18" />
-        <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_welcome_screen.xml" value="0.33" />
+        <entry key="..\:/Users/Raja/AndroidStudioProjects/Instagram/app/src/main/res/layout/activity_welcome_screen.xml" value="0.22" />
       </map>
     </option>
   </component>

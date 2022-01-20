@@ -45,16 +45,14 @@ public class SetUpProfileScreen extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        Objects.requireNonNull(getSupportActionBar()).hide();
-
-        binding.imageView.setOnClickListener(v -> {
+        binding.ProfileImage.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent, 45);
         });
 
-        binding.nextProfile .setOnClickListener(v -> {
+        binding.SubmitBtn.setOnClickListener(v -> {
             String name = Objects.requireNonNull(binding.name.getEditText()).getText().toString();
 
             if (name.isEmpty()) {
@@ -136,7 +134,7 @@ public class SetUpProfileScreen extends AppCompatActivity {
                 });
 
 
-                binding.imageView.setImageURI(data.getData());
+                binding.ProfileImage.setImageURI(data.getData());
                 selectedImage = data.getData();
             }
         }

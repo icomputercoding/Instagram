@@ -14,28 +14,26 @@
         tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/profileInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Profile Info"
+            android:text="@string/profile_info"
             android:textColor="@color/colorTextBlack"
             android:textSize="@dimen/_18sdp"
             android:textStyle="bold"
             android:layout_gravity="center" />
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:fontFamily="@font/poppins"
-            android:text="Please provide your name and an optional profile photo"
+            android:text="@string/profileInfo"
             android:textSize="@dimen/_9sdp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ProfileImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="32dp"
@@ -48,7 +46,6 @@
 
 
     <RelativeLayout
-        android:id="@+id/rel1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -59,7 +56,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Type your name here"
+        android:hint="@string/type_your_name"
         android:textColorHint="@color/colorTextBlack"
         app:boxStrokeColor="@color/colorBlack"
         app:boxStrokeWidthFocused="2dp"
@@ -73,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
-            android:inputType="phone"
+            android:inputType="textPersonName"
             android:textColor="@color/colorTextBlack"
             android:textCursorDrawable="@null" />
 
@@ -82,14 +79,14 @@
 
 
         <Button
-            android:id="@+id/nextProfile"
+            android:id="@+id/SubmitBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/name"
             android:layout_marginTop="20dp"
             android:background="@color/colorBlack"
             android:elevation="5dp"
-            android:text="@string/next"
+            android:text="@string/submit"
             android:textColor="@color/colorTextWhite"
             android:transitionName="transition_next_btn" />
 

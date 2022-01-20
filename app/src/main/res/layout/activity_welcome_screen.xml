@@ -11,14 +11,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="10dp">
+        android:layout_marginTop="50dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins"
-            android:text="Welcome To Instagram"
+            android:text="@string/welcome"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/colorTextBlack"
@@ -31,15 +31,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:src="@drawable/instagram" />
+            android:layout_height="250dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="50dp"
+            android:src="@drawable/instagram"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
@@ -50,7 +54,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="217dp"
             android:orientation="vertical"
             android:weightSum="2"
             tools:ignore="UselessParent">
@@ -58,10 +62,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
+                android:paddingTop="10dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins"
-                android:text="Read our Privacy Policy.Tap Agree and continue to accept the Term of Service"
+                android:text="@string/privacy_desc"
                 android:textAlignment="center"
                 android:textColor="@color/hintTextColor"
                 android:textSize="@dimen/_14sdp"
@@ -76,7 +81,7 @@
                 android:layout_weight="1"
                 android:background="@color/Blue"
                 android:fontFamily="@font/poppins"
-                android:text="AGREE AND CONTINUE"
+                android:text="@string/agree"
                 android:textColor="@color/colorTextWhite"
                 android:textSize="@dimen/_14sdp" />
 

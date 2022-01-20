@@ -2,5 +2,18 @@
     <string name="app_name">Instagram</string>
     <string name="phone_desc">Instagram will need to verify your phone number. <b>What\'s my number?</b></string>
     <string name="next">Next</string>
-    <string name="Description">Enter one time password send on</string>
+    <string name="Description">Enter one time password send on +918698066529</string>
+    <string name="privacy_desc">Read our Privacy Policy.Tap Agree and continue to accept the Term of Service</string>
+    <string name="agree">AGREE AND CONTINUE</string>
+    <string name="welcome">Welcome To Instagram</string>
+    <string name="enter_phone">Enter Your Phone Number</string>
+    <string name="phone">Phone Number</string>
+    <string name="code">CODE</string>
+    <string name="verification">Verification</string>
+    <string name="verify_code">verify code</string>
+    <string name="profileInfo">Please provide your name and an optional profile photo</string>
+    <string name="type_your_name">Type your name here</string>
+    <string name="profile_info">Profile Info</string>
+    <string name="submit">Submit</string>
+    <string name="resend">Didn\'t receive code? <b>Resend again</b></string>
 </resources>
