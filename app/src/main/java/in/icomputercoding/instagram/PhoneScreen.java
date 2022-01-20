@@ -4,7 +4,7 @@ package in.icomputercoding.instagram;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -26,7 +26,6 @@ public class PhoneScreen extends AppCompatActivity {
     ActivityPhoneScreenBinding binding;
     FirebaseAuth auth;
     String phone;
-    ProgressDialog dialog;
     String MobilePattern = "[0-9]{10}";
 
     @Override
@@ -37,41 +36,34 @@ public class PhoneScreen extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Sending OTP...");
-        dialog.setCancelable(false);
-        dialog.show();
 
 
         binding.NextBtn.setOnClickListener(v -> {
 
             phone = Objects.requireNonNull(binding.phoneNumber.getEditText()).getText().toString();
-            if (phone.isEmpty() || !(phone.length() == 10) || !phone.matches(MobilePattern)) {
+            String phoneNo = "+" + binding.countryCode.getSelectedCountryCode() + phone;
+            if (phone.isEmpty()  || !phone.matches(MobilePattern)) {
                 binding.phoneNumber.setError("Enter a valid mobile number");
             } else {
                 PhoneAuthOptions options = PhoneAuthOptions.newBuilder(auth)
-                        .setPhoneNumber(phone)
+                        .setPhoneNumber(phoneNo)
                         .setTimeout(60L, TimeUnit.SECONDS)
                         .setActivity(PhoneScreen.this)
                         .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                             @Override
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                dialog.dismiss();
 
                                 }
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-                                dialog.dismiss();
-                                Toast.makeText(PhoneScreen.this,"Verification Not Completed! Try again.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PhoneScreen.this,e.getMessage(), Toast.LENGTH_LONG).show();
 
                             }
 
                             @Override
                             public void onCodeSent(@NonNull String CodeOTP, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 super.onCodeSent(CodeOTP, forceResendingToken);
-                                dialog.dismiss();
-                                String phoneNo = "+" + binding.countryCode.getSelectedCountryCode() + phone;
                                 Intent intent = new Intent(PhoneScreen.this, OtpVerifyScreen.class);
                                 intent.putExtra("phoneNumber", phoneNo);
                                 intent.putExtra("CodeOTP",CodeOTP);
