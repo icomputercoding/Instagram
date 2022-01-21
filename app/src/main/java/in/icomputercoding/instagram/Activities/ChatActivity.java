@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,7 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import in.icomputercoding.instagram.Adapter.MessagesAdapter;
+import in.icomputercoding.instagram.Adapters.MessagesAdapter;
 import in.icomputercoding.instagram.R;
 import in.icomputercoding.instagram.databinding.ActivityChatBinding;
 
@@ -69,6 +70,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -95,7 +97,7 @@ public class ChatActivity extends AppCompatActivity {
                 .placeholder(R.drawable.avatar)
                 .into(binding.profile);
 
-        binding.imageView2.setOnClickListener(v -> finish());
+        binding.imageView2.setOnClickListener((View.OnClickListener) v -> finish());
 
         receiverUid = getIntent().getStringExtra("uid");
         senderUid = FirebaseAuth.getInstance().getUid();

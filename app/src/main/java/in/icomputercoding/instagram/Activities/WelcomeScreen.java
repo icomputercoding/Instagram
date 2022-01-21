@@ -20,7 +20,7 @@ public class WelcomeScreen extends AppCompatActivity {
         super.onStart();
 
         if (auth.getCurrentUser() != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SetUpProfileScreen.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }

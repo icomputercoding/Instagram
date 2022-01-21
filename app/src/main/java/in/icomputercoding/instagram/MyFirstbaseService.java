@@ -1,5 +1,6 @@
 package in.icomputercoding.instagram;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,11 +13,16 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import in.icomputercoding.instagram.Activities.MainActivity;
 
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 public class MyFirstbaseService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
@@ -24,14 +30,14 @@ public class MyFirstbaseService extends FirebaseMessagingService {
 
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
-        sendNotification(notification.getTitle(), notification.getBody());
+        sendNotification(Objects.requireNonNull(notification).getTitle(), notification.getBody());
 
     }
 
     private void sendNotification(String title, String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "1";

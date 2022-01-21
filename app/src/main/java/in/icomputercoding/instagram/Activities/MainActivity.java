@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,19 +36,21 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import in.icomputercoding.instagram.Adapter.TopStatusAdapter;
-import in.icomputercoding.instagram.Adapter.UsersAdapter;
+import in.icomputercoding.instagram.Adapters.TopStatusAdapter;
+import in.icomputercoding.instagram.Adapters.UsersAdapter;
 import in.icomputercoding.instagram.Model.User;
 import in.icomputercoding.instagram.Model.UserStatus;
 import in.icomputercoding.instagram.R;
 import in.icomputercoding.instagram.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
 
     ActivityMainBinding binding;
     FirebaseDatabase database;
@@ -107,17 +112,14 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseMessaging.getInstance()
                 .getToken()
-                .addOnSuccessListener(new OnSuccessListener<String>() {
-                    @Override
-                    public void onSuccess(String token) {
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("token", token);
-                        database.getReference()
-                                .child("users")
-                                .child(FirebaseAuth.getInstance().getUid())
-                                .updateChildren(map);
-                        //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
-                    }
+                .addOnSuccessListener(token -> {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("token", token);
+                    database.getReference()
+                            .child("users")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .updateChildren(map);
+                    //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
                 });
 
 
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                      User  user = snapshot.getValue(User.class);
+                      user = snapshot.getValue(User.class);
                     }
 
                     @Override
@@ -208,19 +210,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.status:
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(intent, 75);
-                        break;
-                }
-                return false;
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.status:
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intent, 75);
+                    break;
             }
+            return false;
         });
 
     }
@@ -288,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.group:
+            case R.id.search:
                 startActivity(new Intent(MainActivity.this, GroupChatActivity.class));
                 break;
             case R.id.search:

@@ -9,12 +9,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.nearby.messages.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,14 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import in.icomputercoding.instagram.Adapter.GroupMessagesAdapter;
-import in.icomputercoding.instagram.R;
+import in.icomputercoding.instagram.Adapters.GroupMessagesAdapter;
 import in.icomputercoding.instagram.databinding.ActivityGroupChatBinding;
 
 public class GroupChatActivity extends AppCompatActivity {
@@ -48,8 +43,6 @@ public class GroupChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_chat);
-
         binding = ActivityGroupChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -89,29 +82,23 @@ public class GroupChatActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageTxt = binding.messageBox.getText().toString();
+        binding.sendBtn.setOnClickListener((View.OnClickListener) v -> {
+            String messageTxt = binding.messageBox.getText().toString();
 
-                Date date = new Date();
-                Message message = new Message(messageTxt, senderUid, date.getTime());
-                binding.messageBox.setText("");
+            Date date = new Date();
+            Message message = new Message(messageTxt, senderUid, date.getTime());
+            binding.messageBox.setText("");
 
-                database.getReference().child("public")
-                        .push()
-                        .setValue(message);
-            }
+            database.getReference().child("public")
+                    .push()
+                    .setValue(message);
         });
 
-        binding.attachment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, 25);
-            }
+        binding.attachment.setOnClickListener((View.OnClickListener) v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, 25);
         });
     }
 
@@ -126,31 +113,25 @@ public class GroupChatActivity extends AppCompatActivity {
                     Calendar calendar = Calendar.getInstance();
                     StorageReference reference = storage.getReference().child("chats").child(calendar.getTimeInMillis() + "");
                     dialog.show();
-                    reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            dialog.dismiss();
-                            if(task.isSuccessful()) {
-                                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        String filePath = uri.toString();
+                    reference.putFile(selectedImage).addOnCompleteListener(task -> {
+                        dialog.dismiss();
+                        if(task.isSuccessful()) {
+                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                String filePath = uri.toString();
 
-                                        String messageTxt = binding.messageBox.getText().toString();
+                                String messageTxt = binding.messageBox.getText().toString();
 
-                                        Date date = new Date();
-                                        Message message = new Message(messageTxt, senderUid, date.getTime());
-                                        message.setMessage("photo");
-                                        message.setImageUrl(filePath);
-                                        binding.messageBox.setText("");
+                                Date date = new Date();
+                                Message message = new Message(messageTxt, senderUid, date.getTime());
+                                message.setMessage("photo");
+                                message.setImageUrl(filePath);
+                                binding.messageBox.setText("");
 
-                                        database.getReference().child("public")
-                                                .push()
-                                                .setValue(message);
-                                        //Toast.makeText(ChatActivity.this, filePath, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
+                                database.getReference().child("public")
+                                        .push()
+                                        .setValue(message);
+                                //Toast.makeText(ChatActivity.this, filePath, Toast.LENGTH_SHORT).show();
+                            });
                         }
                     });
                 }
