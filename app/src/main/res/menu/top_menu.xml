@@ -3,14 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_video"
-        android:title="Video Call"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
         app:showAsAction="always" />
     <item
-        android:icon="@drawable/ic_phone"
-        android:title="Audio Call"
-        app:showAsAction="always" />
-    <item android:title="Profile" />
-    <item android:title="Block" />
-    <item android:title="Settings" />
+        android:id="@+id/group"
+        android:title="Groups" />
+    <item
+        android:id="@+id/invite"
+        android:title="Invite" />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings" />
 </menu>

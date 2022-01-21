@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu" />
 
-    <io.supercharge.shimmerlayout.ShimmerLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -44,7 +44,7 @@
         app:shimmer_demo_layout_manager_type="linear_vertical"
         tools:listitem="@layout/row_conversation" />
 
-    <io.supercharge.shimmerlayout.ShimmerLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/statusList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -30,7 +30,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -140,7 +139,7 @@ public class ChatActivity extends AppCompatActivity {
                         messages.clear();
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             Message message = snapshot1.getValue(Message.class);
-                            message.setMessageId(snapshot1.getKey());
+                            messages.setMessage(snapshot1.getKey());
                             messages.add(message);
                         }
 
@@ -153,55 +152,44 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageTxt = binding.messageBox.getText().toString();
+        binding.sendBtn.setOnClickListener(v -> {
+            String messageTxt = binding.messageBox.getText().toString();
 
-                Date date = new Date();
-                Message message = new Message(messageTxt, senderUid, date.getTime());
-                binding.messageBox.setText("");
+            Date date = new Date();
+            Message message = new Message(messageTxt, senderUid, date.getTime());
+            binding.messageBox.setText("");
 
-                String randomKey = database.getReference().push().getKey();
+            String randomKey = database.getReference().push().getKey();
 
-                HashMap<String, Object> lastMsgObj = new HashMap<>();
-                lastMsgObj.put("lastMsg", message.getMessage());
-                lastMsgObj.put("lastMsgTime", date.getTime());
+            HashMap<String, Object> lastMsgObj = new HashMap<>();
+            lastMsgObj.put("lastMsg", message.getMessage());
+            lastMsgObj.put("lastMsgTime", date.getTime());
 
-                database.getReference().child("chats").child(senderRoom).updateChildren(lastMsgObj);
-                database.getReference().child("chats").child(receiverRoom).updateChildren(lastMsgObj);
+            database.getReference().child("chats").child(senderRoom).updateChildren(lastMsgObj);
+            database.getReference().child("chats").child(receiverRoom).updateChildren(lastMsgObj);
 
-                database.getReference().child("chats")
-                        .child(senderRoom)
-                        .child("messages")
-                        .child(randomKey)
-                        .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        database.getReference().child("chats")
-                                .child(receiverRoom)
-                                .child("messages")
-                                .child(randomKey)
-                                .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                sendNotification(name, message.getMessage(), token);
-                            }
-                        });
-                    }
-                });
+            database.getReference().child("chats")
+                    .child(senderRoom)
+                    .child("messages")
+                    .child(randomKey)
+                    .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    database.getReference().child("chats")
+                            .child(receiverRoom)
+                            .child("messages")
+                            .child(randomKey)
+                            .setValue(message).addOnSuccessListener(aVoid1 -> sendNotification(name, message.getMessage(), token));
+                }
+            });
 
-            }
         });
 
-        binding.attachment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, 25);
-            }
+        binding.attachment.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, 25);
         });
 
         final Handler handler = new Handler();
@@ -253,17 +241,9 @@ public class ChatActivity extends AppCompatActivity {
             notificationData.put("to",token);
 
             JsonObjectRequest request = new JsonObjectRequest(url, notificationData
-                    , new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // Toast.makeText(ChatActivity.this, "success", Toast.LENGTH_SHORT).show();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(ChatActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }) {
+                    , response -> {
+                        // Toast.makeText(ChatActivity.this, "success", Toast.LENGTH_SHORT).show();
+                    }, error -> Toast.makeText(ChatActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show()) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> map = new HashMap<>();

@@ -54,6 +54,8 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
                 myStories.add(new MyStory(status.getImageUrl()));
             }
 
+
+
             new StoryView.Builder(((MainActivity) context).getSupportFragmentManager())
                     .setStoriesList(myStories) // Required
                     .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)

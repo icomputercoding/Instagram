@@ -21,10 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 import in.icomputercoding.instagram.Adapters.TopStatusAdapter;
 import in.icomputercoding.instagram.Adapters.UsersAdapter;
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                getSupportActionBar()
+                Objects.requireNonNull(getSupportActionBar())
                         .setBackgroundDrawable
                                 (new ColorDrawable(Color.parseColor(toolbarColor)));
             }
@@ -131,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         users = new ArrayList<>();
         userStatuses = new ArrayList<>();
 
-        database.getReference().child("users").child(FirebaseAuth.getInstance().getUid())
+        database.getReference().child("users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -155,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(usersAdapter);
 
-        binding.recyclerView.showShimmerAdapter();
-        binding.statusList.showShimmerAdapter();
+       // binding.recyclerView.showShimmerAdapter();
+        //binding.statusList.showShimmerAdapter();
 
         database.getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
@@ -167,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!user.getUid().equals(FirebaseAuth.getInstance().getUid()))
                         users.add(user);
                 }
-                binding.recyclerView.hideShimmerAdapter();
+              //  binding.recyclerView.hideShimmerAdapter();
                 usersAdapter.notifyDataSetChanged();
             }
 
@@ -198,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                         status.setStatuses(statuses);
                         userStatuses.add(status);
                     }
-                    binding.statusList.hideShimmerAdapter();
+                   // binding.statusList.hideShimmerAdapter();
                     statusAdapter.notifyDataSetChanged();
                 }
             }
@@ -287,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
+            case R.id.group:
                 startActivity(new Intent(MainActivity.this, GroupChatActivity.class));
                 break;
             case R.id.search:
@@ -301,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
