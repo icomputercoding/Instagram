@@ -90,9 +90,8 @@ dependencies {
 
     implementation 'com.devlomi:circularstatusview:1.0.1'
     implementation "com.github.pgreze:android-reactions:1.6"
-    implementation "com.github.OMARIHAMZA:StoryView:1.0.2-alpha"
-    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
 
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     api 'com.facebook.shimmer:shimmer:0.5.0'
