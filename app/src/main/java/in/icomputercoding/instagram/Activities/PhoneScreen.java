@@ -1,4 +1,4 @@
-package in.icomputercoding.instagram;
+package in.icomputercoding.instagram.Activities;
 
 
 import androidx.annotation.NonNull;

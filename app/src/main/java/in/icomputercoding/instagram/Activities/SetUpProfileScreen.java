@@ -1,7 +1,9 @@
-package in.icomputercoding.instagram;
+package in.icomputercoding.instagram.Activities;
 
 
-import androidx.annotation.Nullable;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -15,8 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.Date;
-import java.util.HashMap;
+
 import java.util.Objects;
 
 import in.icomputercoding.instagram.Model.User;
@@ -30,6 +31,8 @@ public class SetUpProfileScreen extends AppCompatActivity {
     FirebaseStorage storage;
     Uri selectedImage;
     ProgressDialog dialog;
+    ActivityResultLauncher<String> getContent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +48,9 @@ public class SetUpProfileScreen extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        binding.ProfileImage.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(intent, 45);
-        });
+        getContent = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> binding.ProfileImage.setImageURI(result));
+
+        binding.ProfileImage.setOnClickListener(v -> getContent.launch("image/*"));
 
         binding.SubmitBtn.setOnClickListener(v -> {
             String name = Objects.requireNonNull(binding.name.getEditText()).getText().toString();
@@ -108,35 +108,4 @@ public class SetUpProfileScreen extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (data != null) {
-            if (data.getData() != null) {
-                Uri uri = data.getData(); // filepath
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                long time = new Date().getTime();
-                StorageReference reference = storage.getReference().child("Profiles").child(time + "");
-                reference.putFile(uri).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        reference.getDownloadUrl().addOnSuccessListener(uri1 -> {
-                            String filePath = uri1.toString();
-                            HashMap<String, Object> obj = new HashMap<>();
-                            obj.put("image", filePath);
-                            database.getReference().child("users")
-                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
-                                    .updateChildren(obj).addOnSuccessListener(aVoid -> {
-
-                                    });
-                        });
-                    }
-                });
-
-
-                binding.ProfileImage.setImageURI(data.getData());
-                selectedImage = data.getData();
-            }
-        }
-    }
 }

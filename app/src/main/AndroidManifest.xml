@@ -13,16 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram">
         <activity
-            android:name=".WelcomeScreen"
+            android:name=".Activities.GroupChatActivity"
             android:exported="false" />
         <activity
-            android:name=".SetUpProfileScreen"
+            android:name=".Activities.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".OtpVerifyScreen"
+            android:name=".Activities.WelcomeScreen"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".Activities.SetUpProfileScreen"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.OtpVerifyScreen"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +37,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PhoneScreen"
+            android:name=".Activities.PhoneScreen"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true" />
     </application>
 

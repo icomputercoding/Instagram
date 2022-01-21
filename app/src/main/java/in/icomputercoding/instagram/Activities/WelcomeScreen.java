@@ -1,4 +1,4 @@
-package in.icomputercoding.instagram;
+package in.icomputercoding.instagram.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +35,7 @@ public class WelcomeScreen extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         binding.agree.setOnClickListener(v -> {
-            Intent i = new Intent(WelcomeScreen.this,PhoneScreen.class);
+            Intent i = new Intent(WelcomeScreen.this, PhoneScreen.class);
             startActivity(i);
             finish();
         });

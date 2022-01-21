@@ -1,4 +1,4 @@
-package in.icomputercoding.instagram;
+package in.icomputercoding.instagram.Activities;
 
 
 import androidx.annotation.NonNull;
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -40,7 +39,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
     FirebaseAuth auth;
     private String code;
     String phoneNumber, CodeOTP;
-    ProgressDialog dialog;
 
 
     @SuppressLint("SetTextI18n")
@@ -54,10 +52,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Sending OTP...");
-        dialog.setCancelable(false);
-        dialog.show();
 
         phoneNumber = getIntent().getStringExtra("phoneNumber");
         CodeOTP = getIntent().getStringExtra("CodeOTP");
@@ -70,7 +64,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
 
             if (!code.isEmpty()) {
                 if (CodeOTP != null) {
-                    dialog.show();
                     verifyCode(code);
                 } else {
                     Toast.makeText(OtpVerifyScreen.this,"Please check internet connection",Toast.LENGTH_SHORT).show();
@@ -118,7 +111,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
     private void signInWithCredential(PhoneAuthCredential credential) {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
-                    dialog.dismiss();
                     if (task.isSuccessful()) {
                         Toast.makeText(OtpVerifyScreen.this, "Verification Completed", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(OtpVerifyScreen.this, SetUpProfileScreen.class);
@@ -157,7 +149,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
-                        dialog.dismiss();
                         Toast.makeText(OtpVerifyScreen.this,"Verification Not Completed! Try again.", Toast.LENGTH_LONG).show();
 
                     }
@@ -165,7 +156,6 @@ public class OtpVerifyScreen extends AppCompatActivity {
                     @Override
                     public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                         super.onCodeSent(s, forceResendingToken);
-                        dialog.dismiss();
                         CodeOTP = s;
                     }
 

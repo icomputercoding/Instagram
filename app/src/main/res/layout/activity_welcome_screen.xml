@@ -6,7 +6,7 @@
     android:background="@color/LightGray"
     android:orientation="vertical"
     android:weightSum="3"
-    tools:context=".WelcomeScreen">
+    tools:context=".Activities.WelcomeScreen">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -87,5 +87,6 @@
 
         </LinearLayout>
     </RelativeLayout>
+
 
 </LinearLayout>

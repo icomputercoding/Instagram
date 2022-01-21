@@ -1,10 +1,12 @@
-package in.icomputercoding.instagram;
+package in.icomputercoding.instagram.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import in.icomputercoding.instagram.R;
 
 public class SplashScreen extends AppCompatActivity {
 
